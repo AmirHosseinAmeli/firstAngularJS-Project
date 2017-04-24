@@ -2,6 +2,7 @@
 <html ng-app="teams">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+    <script src="app/app.js" type="text/javascript" rel="stylesheet"></script>
 </head>
 
 <body>
@@ -29,35 +30,6 @@
 </div>
 <hr/>
 {{ PostDataResponse }}
-<script type="text/javascript">
-    var app = angular.module("teams", []);
-    app.controller("TeamCtrl", function ($scope, $http) {
-        $scope.forms = {};
-        $scope.members = [];
-        $scope.add = function () {
-            $scope.members.push({
-                username: "",
-                display_name: ""
-            });
-        }
-
-
-        $scope.SendData = function () {
-            console.log($scope.forms.teamForm);
-            if ($scope.forms.teamForm.$valid) {
-                var data = {name: $scope.teamName, members: $scope.members};
-                console.log(data)
-                $http.post('http://127.0.0.1:8000/create_team/', data)
-                    .success(function (data) {
-                        $scope.PostDataResponse = data;
-                    })
-                    .error(function (err) {
-                    });
-            }
-        };
-    });
-
-</script>
 
 </body>
 </html>
