@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="teams">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+</head>
+
+<body>
+<div ng-controller="TeamCtrl">
+    <form name="forms.teamForm" ng-submit="SendData()" novalidate>
+        <p>Team Name: <input type="text" name="teamName" ng-model="teamName" required/></p>
+        <p>Members: </p>
+
+
+        <div ng-repeat="member in members">
+            <input type="text" placeholder="Member Name ..." ng-model="member.username"
+                   name="usernameForm_{{$index}}" required>
+            <input type="text" placeholder="Display Name ..." ng-model="member.display_name"
+                   name="displayNameForm_{{$index}}" required>
+            <span style="color:red"
+                  ng-show="forms.teamForm['usernameForm_' + $index].$error.required && (!forms.teamForm['usernameForm_' + $index].$pristine || forms.teamForm.$submitted)">Username is required.</span>
+            <span style="color:red"
+                  ng-show="forms.teamForm['displayNameForm_' + $index].$error.required && (!forms.teamForm['displayNameForm_' + $index].$pristine || forms.teamForm.$submitted)">Display Name is required.</span>
+        </div>
+        <input type="button" ng-click="add()" value="New Item">
+        <input type="submit" value="Submit">
+
+
+    </form>
+</div>
+<hr/>
+{{ PostDataResponse }}
+<script type="text/javascript">
+    var app = angular.module("teams", []);
+    app.controller("TeamCtrl", function ($scope, $http) {
+        $scope.forms = {};
+        $scope.members = [];
+        $scope.add = function () {
+            $scope.members.push({
+                username: "",
+                display_name: ""
+            });
+        }
+
+
+        $scope.SendData = function () {
+            console.log($scope.forms.teamForm);
+            if ($scope.forms.teamForm.$valid) {
+                var data = {name: $scope.teamName, members: $scope.members};
+                console.log(data)
+                $http.post('http://127.0.0.1:8000/create_team/', data)
+                    .success(function (data) {
+                        $scope.PostDataResponse = data;
+                    })
+                    .error(function (err) {
+                    });
+            }
+        };
+    });
+
+</script>
+
+</body>
+</html>

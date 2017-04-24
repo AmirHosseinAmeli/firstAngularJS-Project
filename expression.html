@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    var create = angular.module("create_user", []);
+    create.controller("SendCtrl", function ($scope, $http) {
+
+        $scope.SendData = function () {
+            var data = {username: $scope.username, display_name: $scope.display_name};
+            $http.post('http://127.0.0.1:8000/create/', data)
+                .success(function (data) {
+                    $scope.PostDataResponse = data;
+                })
+                .error();
+        };
+
+    });
+</script>
+<div ng-app="create_user" ng-controller="SendCtrl">
+    <p>Username: <input type="text" name="username" ng-model="username" required/></p>
+    <p>Display Name: <input type="text" name="display_name" ng-model="display_name" required/></p>
+    <button ng-click="SendData()">Submit</button>
+    <hr/>
+    {{ PostDataResponse }}
+</div>
+</body>
+</html>
