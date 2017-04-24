@@ -10,15 +10,16 @@ angular.module("teams").controller("TeamCtrl", function ($scope, $http) {
 
 
     $scope.SendData = function () {
-        console.log($scope.forms.teamForm);
         if ($scope.forms.teamForm.$valid) {
             var data = {name: $scope.teamName, members: $scope.members};
-            console.log(data)
             $http.post('http://127.0.0.1:8000/create_team/', data)
-                .success(function (data) {
-                    $scope.PostDataResponse = data;
+                .success(function () {
+                    $scope.correctSend = "Data Send";
+                    $scope.wrongSend= null;
                 })
                 .error(function (err) {
+                    $scope.correctSend = null;
+                    $scope.wrongSend= "Error in Sending";
                 });
         }
     };

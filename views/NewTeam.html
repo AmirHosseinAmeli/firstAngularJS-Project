@@ -3,12 +3,15 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
     <script src="../app/app.js" type="text/javascript" rel="stylesheet"></script>
+    <script src="../app/controllers/mainController.js" type="text/javascript" rel="stylesheet"></script>
 </head>
 
 <body>
 <div ng-controller="TeamCtrl">
     <form name="forms.teamForm" ng-submit="SendData()" novalidate>
-        <p>Team Name: <input type="text" name="teamName" ng-model="teamName" required/></p>
+        <p>Team Name: <input type="text" name="teamName" ng-model="teamName" required/> <span style="color:red"
+                                                                                              ng-show="forms.teamForm.teamName.$error.required && (!forms.teamForm.teamName.$pristine || forms.teamForm.$submitted)">TeamName is required.</span>
+        </p>
         <p>Members: </p>
 
 
@@ -27,9 +30,9 @@
 
 
     </form>
+    <hr/>
+    <p style="color:green">{{correctSend}}</p>
+    <p style="color:red">{{wrongSend}}</p>
 </div>
-<hr/>
-{{ PostDataResponse }}
-
 </body>
 </html>
